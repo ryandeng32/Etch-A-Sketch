@@ -7,10 +7,11 @@ const randomColorBtn = document.querySelector("#random-color-btn");
 const singleColorBtn = document.querySelector("#single-color-btn"); 
 const specialModeBtn = document.querySelector("#special-mode-btn"); 
 
+color = "#e66465"; 
 // single, random, or special
 let mode = "single"; 
 
-function renderCell() {
+function renderBoard() {
     boardEl.innerHTML = ""; 
     boardEl.style.gridTemplateColumns = "1fr ".repeat(boardLength); 
     boardEl.style.gridTemplateRows = "1fr ".repeat(boardLength); 
@@ -21,8 +22,14 @@ function renderCell() {
         newCell.addEventListener("mousemove", (e) => {
             switch(mode) {
                 case "single": 
-                    e.target.classList.add("flipped"); 
+                    if (!e.target.classList.contains("flipped")){
+                        e.target.style.backgroundColor = color; 
+                        e.target.classList.add("flipped"); 
+                    }
                     break; 
+                case "special": 
+                    e.target.classList.add("flipped"); 
+                    boardEl.style.backgroundImage = 'url("../images/meme.png")';
 
             }
         }); 
@@ -32,18 +39,20 @@ function renderCell() {
 
 rangeEl.oninput = function () {
     boardLength = this.value; 
-    renderCell(); 
+    renderBoard(); 
     rangeValEl.textContent = `${boardLength} x ${boardLength}`
 }
 
-clearBtn.onclick = renderCell; 
-singleColorBtn.onclick = () => {
+singleColorBtn.onchange = () => {
     mode = "single"; 
+    color = singleColorBtn.value; 
 }
+clearBtn.onclick = renderBoard; 
+
 randomColorBtn.onclick = () => {
     mode = "random"; 
 }
 specialModeBtn.onclick = () => {
     mode = "special"; 
 }
-renderCell();
+renderBoard();

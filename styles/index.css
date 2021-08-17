@@ -47,7 +47,6 @@ button {
     min-width: 500px;
     min-height: 500px;
     display: grid;
-    background-image: url("../images/meme.png");
     background-size: cover;
     background-position: bottom left;
 }
